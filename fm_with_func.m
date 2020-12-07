@@ -1,0 +1,22 @@
+clc;
+clear all;
+close all;
+vm=5;
+vc=5; fm=5; fc=150; fs=1000;
+wc=2*pi*fc;
+wm=2*pi*fm;
+df=10;
+t=0:1/fs:2/fm;
+mf=df/fm; mp=vm;
+vcar=vc*sin(wc*t);
+vmsg=vm*sin(wm*t);
+vfm=vc*sin(wc*t+mf*sin(wm*t));
+vfm1=fmmod(vmsg,fc,fs,df);
+vdemod=fmdemod(vfm1,fc,fs,df);
+y=awgn(vfm1,5)
+vfdmn=fmdemod(vfm1,fc,fs,df);
+subplot(5,1,1); plot(t,vfm);
+title('Carrier signal');
+subplot(5,1,2); plot(t,vfm1);
+title('Frequency modulated signal');
+subplot(5,1,3); plot(t,vdemod); title('Demodulated signal');
